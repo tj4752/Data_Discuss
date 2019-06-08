@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -70,7 +72,17 @@ class _MyHomePageState extends State<MyHomePage>
               actions: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: 8.0),
-                  child: FlutterLogo(colors: Colors.blue, size: 40.0),
+                  child: PopupMenuButton<String>(
+                      icon: new Icon(Icons.more_vert, color: Colors.black),
+                      itemBuilder: (BuildContext context){
+                        return Constants.choices.map((String choice){
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(choice)
+                          );
+                        }).toList();
+                      },
+                  ),
                 )
               ],
             ),
@@ -138,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   Row(
                                     children: <Widget>[
                                       Text(
-                                        'Kayla',
+                                        'Data Discuss',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             fontSize: 20.0),
@@ -151,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       ),
                                       SizedBox(width: 110.0),
                                       Text(
-                                        '5.8km',
+                                        '',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             fontSize: 20.0,
@@ -163,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   Row(
                                     children: <Widget>[
                                       Text(
-                                        'Fate is wonderful.',
+                                        'Machine Learning',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
                                             fontSize: 15.0,
@@ -183,12 +195,6 @@ class _MyHomePageState extends State<MyHomePage>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      FloatingActionButton(
-                        elevation: 0.0,
-                        onPressed: () {},
-                        child: Icon(Icons.close, color: Colors.black),
-                        backgroundColor: Colors.white,
-                      ),
                       Container(
                         height: 70.0,
                         width: 70.0,
@@ -202,20 +208,9 @@ class _MyHomePageState extends State<MyHomePage>
                         ),
                         child: Container(
                           child: Center(
-                            child: IconButton(
-                              icon: Image.asset('assets/chatbubble.png'),
-                              color: Colors.lightBlueAccent[300],
-                              onPressed: () {},
-                            ),
                           ),
                         ),
                       ),
-                      FloatingActionButton(
-                        elevation: 0.0,
-                        onPressed: () {},
-                        child: Icon(Icons.favorite, color: Colors.pink),
-                        backgroundColor: Colors.white,
-                      )
                     ],
                   ),
                 )
