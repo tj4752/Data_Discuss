@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                    padding: EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 40.0),
+                    padding: EdgeInsets.fromLTRB(30.0, 30.0, 20.0, 40.0),
                     child: Stack(
                       overflow: Overflow.visible,
                       children: <Widget>[
@@ -190,30 +190,6 @@ class _MyHomePageState extends State<MyHomePage>
                         )
                       ],
                     )),
-                Container(
-                  transform: Matrix4.translationValues(0.0, fabButtonanim.value * devHeight, 0.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        height: 70.0,
-                        width: 70.0,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(35.0),
-                          border: Border.all(
-                              color: Colors.transparent,
-                              style: BorderStyle.solid,
-                              width: 2.0),
-                        ),
-                        child: Container(
-                          child: Center(
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           );
