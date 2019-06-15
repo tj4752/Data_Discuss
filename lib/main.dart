@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            height: 240,
+                            height: 220,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                     topLeft: const Radius.circular(20.0),
@@ -99,6 +99,33 @@ class _MyHomePageState extends State<MyHomePage> {
                                     image: NetworkImage(
                                         data[i]['feature_image']),
                                     fit: BoxFit.cover)),
+                          ),
+                          Container(
+                            height: 25,
+                            child: Text('Data Science',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black)),
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(
+                              left: 10,
+                              top: 5
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            child: Text(data[i]['title'],
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.only(
+                                left: 10
+                            ),
                           )
                         ],
                       ),
