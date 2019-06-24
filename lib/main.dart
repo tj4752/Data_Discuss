@@ -3,16 +3,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'constants.dart';
+import 'blogpage.dart';
+import 'auto_size_text.dart';
+import 'splash_screen.dart';
 
 void main() => runApp(new MyApp());
+
+var routes = <String, WidgetBuilder>{
+  "/home": (BuildContext context) => MyHomePage(),
+};
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      home: new MyHomePage(),
+      home: SplashScreen(),
         debugShowCheckedModeBanner: false,
+        routes: routes
     );
   }
 }
@@ -78,58 +86,70 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, i) {
             return Container(
-                child: Card(
-                    elevation: 5,
-                    margin: const EdgeInsets.all(10.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: Container(
-                      height: 300.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            height: 220,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(20.0),
-                                    topRight: const Radius.circular(20.0)),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        data[i]['feature_image']),
-                                    fit: BoxFit.cover)),
+                child: new GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => blogpage(content: data[i])),
+                    );
+                  },
+                    child: Card(
+                        elevation: 5,
+                        margin: const EdgeInsets.all(10.0),
+
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        child: Container(
+                          height: 300.0,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 220,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0)),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            data[i]['feature_image']),
+                                        fit: BoxFit.cover)),
+                              ),
+                              Container(
+                                height: 25,
+                                child: AutoSizeText('Data Science',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.black),
+                                maxLines: 2),
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 5
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                child: AutoSizeText(data[i]['title'],
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                maxLines: 2),
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(
+                                    left: 10
+                                ),
+                              )
+                            ],
                           ),
-                          Container(
-                            height: 25,
-                            child: Text('Data Science',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black)),
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(
-                              left: 10,
-                              top: 5
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            child: Text(data[i]['title'],
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black)),
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(
-                                left: 10
-                            ),
-                          )
-                        ],
-                      ),
-                    )));
+                        ))
+                ),
+                );
           },
         ));
   }
