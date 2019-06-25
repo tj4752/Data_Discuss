@@ -11,6 +11,7 @@ void main() => runApp(new MyApp());
 
 var routes = <String, WidgetBuilder>{
   "/home": (BuildContext context) => MyHomePage(),
+  "/blogs": (BuildContext context) => blogpage(),
 };
 
 class MyApp extends StatelessWidget {
