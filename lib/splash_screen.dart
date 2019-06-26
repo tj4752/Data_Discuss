@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: Colors.black),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: Colors.black,
                         radius: 40.0,
                         child: Image.asset('assets/datadiscuss.png'),
                       ),

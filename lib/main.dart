@@ -67,6 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black)),
           actions: <Widget>[
+            IconButton(icon: Icon(Icons.search),
+                color: Colors.black,
+                onPressed: (){
+              showSearch(context: context, delegate: DataSearch());
+                }),
             Padding(
               padding: EdgeInsets.only(right: 8.0),
               child: PopupMenuButton<String>(
@@ -96,7 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                     child: Card(
                         elevation: 5,
-                        margin: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.only(
+                          left: 10,
+                          top: 15,
+                          right: 10,
+                          bottom: 15
+                        ),
 
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
@@ -122,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: AutoSizeText('Data Science',
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w300,
                                         color: Colors.black),
                                 maxLines: 2),
@@ -137,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: AutoSizeText(data[i]['title'],
                                     style: TextStyle(
                                         fontFamily: 'Montserrat',
-                                        fontSize: 25,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                 maxLines: 2),
@@ -154,4 +164,110 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ));
   }
+}
+
+class DataSearch extends SearchDelegate<String>{
+List data = _MyHomePageState().data;
+@override
+  List<Widget> buildActions(BuildContext context) {
+    return [IconButton(icon: Icon(Icons.clear), onPressed: (){
+      query = "";
+    })];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation),
+      onPressed: (){
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty ?
+    data :
+    data.where((p) => p.startsWith(query)).toList();
+    return ListView.builder(
+      itemCount: data == null ? 0 : suggestionList.length,
+      itemBuilder: (BuildContext context, i) {
+        return Container(
+          child: new GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => blogpage(content: data[i])),
+                );
+              },
+              child: Card(
+                  elevation: 5,
+                  margin: const EdgeInsets.all(10.0),
+
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: Container(
+                    height: 300.0,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 220,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(20.0),
+                                  topRight: const Radius.circular(20.0)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      data[i]['feature_image']),
+                                  fit: BoxFit.cover)),
+                        ),
+                        Container(
+                          height: 25,
+                          child: AutoSizeText('Data Science',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                              maxLines: 2),
+                          alignment: Alignment.centerLeft,
+                          margin: const EdgeInsets.only(
+                              left: 10,
+                              top: 5
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          child: AutoSizeText(data[i]['title'],
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              maxLines: 2),
+                          alignment: Alignment.centerLeft,
+                          margin: const EdgeInsets.only(
+                              left: 10
+                          ),
+                        )
+                      ],
+                    ),
+                  ))
+          ),
+        );
+      },
+    );
+  }
+
 }
