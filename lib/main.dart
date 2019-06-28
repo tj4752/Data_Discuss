@@ -44,12 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
       data = extractdata["posts"];
     });
   }
-
   @override
   void initState() {
     this.makeRequest();
   }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -70,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(icon: Icon(Icons.search),
                 color: Colors.black,
                 onPressed: (){
-              showSearch(context: context, delegate: DataSearch());
+              showSearch(context: context, delegate: DataSearch(data));
                 }),
             Padding(
               padding: EdgeInsets.only(right: 8.0),
@@ -167,8 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class DataSearch extends SearchDelegate<String>{
-List data = _MyHomePageState().data;
-@override
+List data;
+List<String> titles = [];
+DataSearch(this.data);
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [IconButton(icon: Icon(Icons.clear), onPressed: (){
       query = "";
@@ -195,78 +195,22 @@ List data = _MyHomePageState().data;
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty ?
-    data :
-    data.where((p) => p.startsWith(query)).toList();
     return ListView.builder(
-      itemCount: data == null ? 0 : suggestionList.length,
-      itemBuilder: (BuildContext context, i) {
-        return Container(
-          child: new GestureDetector(
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => blogpage(content: data[i])),
-                );
-              },
-              child: Card(
-                  elevation: 5,
-                  margin: const EdgeInsets.all(10.0),
-
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Container(
-                    height: 300.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: 220,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(20.0),
-                                  topRight: const Radius.circular(20.0)),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      data[i]['feature_image']),
-                                  fit: BoxFit.cover)),
-                        ),
-                        Container(
-                          height: 25,
-                          child: AutoSizeText('Data Science',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black),
-                              maxLines: 2),
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(
-                              left: 10,
-                              top: 5
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          child: AutoSizeText(data[i]['title'],
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                              maxLines: 2),
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(
-                              left: 10
-                          ),
-                        )
-                      ],
-                    ),
-                  ))
-          ),
-        );
-      },
+        itemCount: data.length,
+        itemBuilder: (context, index){
+          titles.add(data[index]['title']);
+          List suggestionList = query.isEmpty ?
+              titles :
+              titles.where((p) => p.startsWith(query)).toList();
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 40.0,
+              child: Image.network(data[index]['feature_image']),
+            ),
+            title: Text(suggestionList[index]),
+          );
+    }
     );
   }
 
