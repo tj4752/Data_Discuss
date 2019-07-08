@@ -10,6 +10,8 @@ import 'authors.dart';
 import 'subscribe.dart';
 import 'about.dart';
 import 'contact.dart';
+import 'package:connectivity/connectivity.dart';
+import 'internet_connectivity.dart';
 
 void main() => runApp(new MyApp());
 
@@ -36,6 +38,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var connectivity;
+  StreamSubscription<ConnectivityResult> subscription;
   String url =
       'https://www.datadiscuss.com/ghost/api/v2/content/posts/?key=477da0c526d10b1f39c02185a7';
   List data;
@@ -50,8 +54,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   void initState() {
-    this.makeRequest();
+    super.initState();
+    connectivity = new Connectivity();
+    subscription = connectivity.onConnectivityChanged.listen((ConnectivityResult result){
+      if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+        makeRequest();
+      }
+      else{
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => internet(),
+            ));
+      }
+    });
   }
+  @override
+  void dispose(){
+    subscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -184,10 +206,6 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ));
   }
-}
-
-void choiceAction(String choice){
-
 }
 
 
