@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'navigator.dart';
+import 'main.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 4), () => MyNavigator.goToHome(context));
+    Timer(Duration(seconds: 3), () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage())));
   }
 
   @override
@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       padding: EdgeInsets.only(top: 20.0),
                     ),
                     Text(
-                      'Where Ideas Evolve!',
+                      'Data tells a Secret!',
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(

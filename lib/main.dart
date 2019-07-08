@@ -6,6 +6,10 @@ import 'constants.dart';
 import 'blogpage.dart';
 import 'auto_size_text.dart';
 import 'splash_screen.dart';
+import 'authors.dart';
+import 'subscribe.dart';
+import 'about.dart';
+import 'contact.dart';
 
 void main() => runApp(new MyApp());
 
@@ -65,15 +69,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black)),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.search),
-                color: Colors.black,
-                onPressed: (){
-              showSearch(context: context, delegate: DataSearch(data));
-                }),
             Padding(
               padding: EdgeInsets.only(right: 8.0),
               child: PopupMenuButton<String>(
                 icon: new Icon(Icons.more_vert, color: Colors.black),
+                onSelected: (choice){
+                  if(choice == Constants.subscribe){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => subscribe(),
+                        ));
+                  } else if(choice == Constants.authors){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => authors(),
+                    ));
+                  } else if(choice == Constants.about){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => about(),
+                          ));
+                  } else if(choice == Constants.contact){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => contact(),
+                  ));
+                  }
+                },
                 itemBuilder: (BuildContext context){
                   return Constants.choices.map((String choice){
                     return PopupMenuItem<String>(
@@ -164,56 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
-class DataSearch extends SearchDelegate<String>{
-List data;
-List<String> titles = [];
-DataSearch(this.data);
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [IconButton(icon: Icon(Icons.clear), onPressed: (){
-      query = "";
-    })];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation),
-      onPressed: (){
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    return null;
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (context, index){
-          titles.add(data[index]['title']);
-          List suggestionList = query.isEmpty ?
-              titles :
-              titles.where((p) => p.startsWith(query)).toList();
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 40.0,
-              child: Image.network(data[index]['feature_image']),
-            ),
-            title: Text(suggestionList[index]),
-          );
-    }
-    );
-  }
+void choiceAction(String choice){
 
 }
+
+
